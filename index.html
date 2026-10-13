@@ -25,7 +25,7 @@ label{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:upperca
 .mw-hover:hover,.mw-hover:focus-visible{transform:translateY(-1px) scale(1.03);box-shadow:0 6px 18px rgba(10,10,10,.12)}.mw-hover:active{transform:scale(.98)}
 @media (prefers-reduced-motion:reduce){.mw-hover,.mw-hover:hover{transition:none;transform:none}}
 .res{border-bottom:1px solid var(--bd);padding:10px 0;display:flex;gap:10px}.res img{width:64px;height:64px;object-fit:cover;flex:none}
-.share{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--bd);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.share{position:static;margin-top:16px;background:#fff;border-top:1px solid var(--bd);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
 .share .in{max-width:560px;margin:0 auto;display:flex;gap:8px}.share .btn{flex:1}
 #toast{font-size:13px;color:var(--mut);text-align:center;min-height:18px}
 .hidden{display:none}
@@ -65,4 +65,21 @@ function results(){$("#ctr").textContent=`Done · ${D.length} of ${D.length}`;
 $("#shareBtn").onclick=async()=>{const t=txt();if(navigator.share){try{await navigator.share({title:"Room Quiz Answers",text:t});return}catch(e){if(e.name==="AbortError")return}}
  try{await navigator.clipboard.writeText(t);$("#toast").textContent="Copied"}catch(e){$("#toast").textContent="Copy failed. Use Text."}};
 render();
-</script></body></html>
+</script>
+<!-- mw-submit -->
+<script src="submit.js"></script>
+<script src="submit-hook.js"></script>
+<script>
+MWHook({app:'room-quiz',deck:'2026-10-13',
+ isEnd:function(){var h=document.querySelector('#app h2');return !!h&&h.textContent.trim()==='Your Answers';},
+ mount:function(){return document.getElementById('app');},
+ results:function(){var s=JSON.parse(localStorage.getItem('roomquiz-v1')||'{}');return {answers:(s.a||{}),photos:D.map(function(p){return {id:p.id,level:p.level,suggested:p.guess,question:p.q||null};})};},
+ notes:function(){var s=JSON.parse(localStorage.getItem('roomquiz-v1')||'{}'),a=s.a||{};return Object.keys(a).filter(function(k){return a[k].notes;}).map(function(k){return k+': '+a[k].notes;}).join('\n');}});
+</script>
+<!-- /mw-submit -->
+<!-- mw-built-footer -->
+<style>.mw-built{display:block;clear:both;width:100%;box-sizing:border-box;margin:0;padding:14px 16px calc(14px + var(--mw-built-pad,0px) + env(safe-area-inset-bottom,0px));background:#fafaf8;text-align:center;font-family:Hind,system-ui,sans-serif;font-size:12px;line-height:1.4;color:#8a8a8a;position:relative;z-index:1}.mw-built a{color:#8a8a8a;text-decoration:none;transition:color .15s,opacity .15s}.mw-built a.mw-hover:hover,.mw-built a:focus-visible{color:#555;text-decoration:underline}</style>
+<footer class="mw-built"><a class="mw-hover" href="https://maxweberman.com" target="_blank" rel="noopener">Built by Max Weberman</a></footer>
+<script>(function(){var r=document.documentElement;function m(){var ft=document.querySelector('.mw-built'),h=0,vh=innerHeight;if(!ft)return;document.querySelectorAll('body *').forEach(function(e){if(ft.contains(e))return;var s=getComputedStyle(e);if((s.position=='fixed'||s.position=='sticky')&&s.display!='none'&&s.visibility!='hidden'){var b=e.getBoundingClientRect();if(b.height>0&&b.height<vh*.5&&b.bottom>=vh-2&&b.top>vh*.5)h=Math.max(h,vh-b.top)}});r.style.setProperty('--mw-built-pad',Math.ceil(h)+'px')}addEventListener('load',m);addEventListener('resize',m);setTimeout(m,600);setTimeout(m,2000)})();</script>
+<!-- /mw-built-footer -->
+</body></html>
