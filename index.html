@@ -76,6 +76,17 @@ MWHook({app:'room-quiz',deck:'2026-10-13',
  results:function(){var s=JSON.parse(localStorage.getItem('roomquiz-v1')||'{}');return {answers:(s.a||{}),photos:D.map(function(p){return {id:p.id,level:p.level,suggested:p.guess,question:p.q||null};})};},
  notes:function(){var s=JSON.parse(localStorage.getItem('roomquiz-v1')||'{}'),a=s.a||{};return Object.keys(a).filter(function(k){return a[k].notes;}).map(function(k){return k+': '+a[k].notes;}).join('\n');}});
 </script>
+<script src="mid-submit.js?v=mid2"></script>
+<script>
+(function(){var ALL=D.slice();
+MWMid({app:'room-quiz',deck:'2026-10-13',
+ answered:function(){return D.filter(function(p,i){var a=st.a[p.id];return a&&(i<st.i||a.notes);}).map(function(p){return p.id;});},
+ open:function(){return D.filter(function(p,i){var a=st.a[p.id];return !(a&&(i<st.i||a.notes));}).map(function(p){return p.id;});},
+ total:function(){return ALL.length;},
+ results:function(ids){var o={};ids.forEach(function(k){o[k]=st.a[k];});return {answers:o,photos:ALL.filter(function(p){return ids.indexOf(p.id)>=0;}).map(function(p){return {id:p.id,level:p.level,suggested:p.guess,question:p.q||null};})};},
+ notes:function(ids){return ids.filter(function(k){return st.a[k]&&st.a[k].notes;}).map(function(k){return k+': '+st.a[k].notes;}).join('\n');},
+ hide:function(ids,fresh){for(var i=D.length-1;i>=0;i--)if(ids.indexOf(D[i].id)>=0)D.splice(i,1);if(fresh)st.i=0;if(st.i>D.length)st.i=D.length;render();scrollTo(0,0);}});})();
+</script>
 <!-- /mw-submit -->
 <!-- mw-built-footer -->
 <style>.mw-built{display:block;clear:both;width:100%;box-sizing:border-box;margin:0;padding:14px 16px calc(14px + var(--mw-built-pad,0px) + env(safe-area-inset-bottom,0px));background:#fafaf8;text-align:center;font-family:Hind,system-ui,sans-serif;font-size:12px;line-height:1.4;color:#8a8a8a;position:relative;z-index:1}.mw-built a{color:#8a8a8a;text-decoration:none;transition:color .15s,opacity .15s}.mw-built a.mw-hover:hover,.mw-built a:focus-visible{color:#555;text-decoration:underline}</style>
