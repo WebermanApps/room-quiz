@@ -6,7 +6,6 @@
    Sends answers so far through MWSubmit.send (submit.js). Sent ids are remembered in localStorage
    ('mw-mid-sent-'+app) and handed to hide() so only unanswered questions remain. Deck state itself is kept. */
 (function(w){
-  var DECKS='https://webermanapps.github.io/branding-djqmb410/decks/';
   var CSS='.mwm-btn{position:fixed;z-index:9000;top:calc(8px + env(safe-area-inset-top,0px));right:calc(8px + env(safe-area-inset-right,0px));display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;background:#0B6E4F;color:#fff;border:2px solid #0B6E4F;border-radius:0;font:700 14px/1 Khand,Hind,system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;touch-action:manipulation;box-shadow:0 4px 14px rgba(10,10,10,.14)}'+
   '.mwm-btn.mwm-inline{position:static;box-shadow:none;margin:0 8px 0 auto;flex:none}.mwm-btn[disabled]{opacity:.7;cursor:default}.mwm-btn small{font:600 12px/1 Hind,system-ui,sans-serif;letter-spacing:0;opacity:.9}'+
   '@media(min-width:1800px){.mwm-btn{min-height:56px;font-size:18px;padding:0 20px;top:16px;right:16px}.mwm-btn.mwm-inline{min-height:48px}}'+
@@ -27,7 +26,7 @@
   function strip(o){return JSON.parse(JSON.stringify(o==null?null:o,function(k,v){return (typeof v==='string'&&v.slice(0,5)==='data:')?'[image not sent]':v;}));}
   function confirmBox(n,ok,left){var bg=document.createElement('div');bg.className='mwm-bg';bg.setAttribute('role','dialog');bg.setAttribute('aria-modal','true');bg.setAttribute('aria-labelledby','mwm-t');
     bg.innerHTML='<div class="mwm-card">'+CHECK+'<h2 id="mwm-t">'+(ok?'Answers Sent':'Saved, Will Send')+'</h2><p>'+n+' answer'+(n===1?'':'s')+(ok?' sent to the Construction agent.':' saved on this device; it sends when you are back online.')+'</p><p>'+(left?left+' question'+(left===1?'':'s')+' still open. Answered ones are hidden now.':'Nothing left to answer.')+'</p>'+
-      '<div class="mwm-row">'+(left?'<button type="button" class="mwm-keep mw-hover">Keep Going</button>':'')+'<a class="mw-backdecks mw-hover" href="'+DECKS+'">'+BACK+'<span>Back to Deck Building</span></a></div></div>';
+      '<div class="mwm-row">'+(left?'<button type="button" class="mwm-keep mw-hover">Keep Going</button>':'')+'</div></div>';
     document.body.appendChild(bg);var k=bg.querySelector('.mwm-keep');if(k){k.onclick=function(){bg.remove()};setTimeout(function(){k.focus()},30);}
     bg.addEventListener('keydown',function(e){if(e.key==='Escape')bg.remove()});}
   w.MWMid=function(c){

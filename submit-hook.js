@@ -25,7 +25,6 @@
       var bf=c.before&&c.before();if(bf&&bf.parentNode===host)host.insertBefore(box,bf);else host.appendChild(box);
       box.addEventListener('click',function(e){if(e.target.closest('.mws-btn'))backup();},true);
       w.MWSubmit.button(box,{agent:'construction',app:c.app,deck:c.deck,getResults:payloadResults,getNotes:payloadNotes});
-      if(!box.querySelector('.mw-backdecks')){var a=document.createElement('a');a.className='mw-backdecks mw-hover';a.href='https://webermanapps.github.io/branding-djqmb410/decks/';a.innerHTML='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg><span>Back to Deck Building</span>';box.appendChild(a);}
       if(c.onMount)c.onMount();
     }
     function start(){new MutationObserver(tick).observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['style','class','hidden']});tick();}
